@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDI Input</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+
+        }
+        #image {
+                position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+        }
+         .widget {
+            padding: .5rem;
+            background: #ffffff94;
+            width: 15rem;
+         }
+         .monitor, .member {
+            display: none;
+        }
+        .events {
+            overflow: scroll;
+        }
+        .main .monitor {
+            display: block;
+
+        }
+        .group .member {
+            display: block;
+        }
+        .main .welcome, .group .welcome {
+            display: none;
+        }
+        .group--0 .button--group--0,
+        .group--1 .button--group--1,
+        .group--2 .button--group--2,
+        .group--3 .button--group--3,
+        .group--4 .button--group--4
+         {
+            background-color: blue;
+            color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <main id="app">
+        <div class="widget welcome">
+            <button class="button button--chooseGroup" onclick="chooseGroup()">Choose Group</button>
+            <button class="button button--chooseGroup" onclick="connectMidi()">Connect Midi</button>
+        </div>
+        <div class="widget member">
+            Pick a group<br />
+            <button class="button button--chooseGroup button--group--0" onclick="chooseGroup(0)">1</button>
+            <button class="button button--chooseGroup button--group--1" onclick="chooseGroup(1)">2</button>
+            <button class="button button--chooseGroup button--group--2" onclick="chooseGroup(2)">3</button>
+            <button class="button button--chooseGroup button--group--3" onclick="chooseGroup(3)">4</button>
+            <button class="button button--chooseGroup button--group--4" onclick="chooseGroup(4)">5</button>
+        
+        </div>
+        <div class="widget monitor">
+            <ul id="devices">
+                Welcome!
+            </ul>
+            <div id="events">
+                No events yet!
+            </div>
+        </div>
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2Z4ZHY2a2hxaHFhaDliaDBpcjNpbWlsbTRnaDFwcGIyMXBzOTgwZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wgCtRNiCgYhlSCnNsM/giphy.gif" id="image"/>
+    </main>
+    
+<script lang="text/javascript" src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+
+
+    <script src="main.js" lang="js"></script>
+</body>
+</html>
