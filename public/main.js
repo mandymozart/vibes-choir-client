@@ -8,13 +8,8 @@ const rootEl = document.querySelector('#app');
 const devicesList = document.querySelector('#devices');
 const eventsList = document.querySelector('#events');
 const imageEl = document.querySelector('#image');
-const CHANNEL = 'generator';
+// const CHANNEL = 'generator';
 
-const API_KEY = 'r2AAWg.vXWn6Q:wnik03gWqgiNl9Co_zBmO-ySJODrhBJ8kFSkQ8Q0Sic';
-let channel;
-// Always connect
-const realtime = new Ably.Realtime({ key: API_KEY });
-channel = realtime.channels.get(CHANNEL);
 
 const images = [
 	{
@@ -54,27 +49,34 @@ const images = [
 	},
 ];
 
-async function chooseGroup(index) {
-	index = typeof index === 'undefined' ? group : index;
+let socket = io("vibes-choir-client.onrender.com");
+// let socket = io();
+
+function join() {
 	role = 'group';
 	rootEl.classList.add('group');
-	// make sure to assign to group
-	switchGroup(index);
 
-	await channel.subscribe(message => {
-		console.log('Received: ', message.data);
+	// Subscribe to 'midi_message' event emitted by the server
+	socket.on('midi_message', (message) => {
+		console.log('Received: ', group, message.clientId);
 		const data = message.data;
 		// Play image if subscribed to this group
 		if (data.role === 'group' && data.group === group) {
 			playImage(data.note);
 		}
 	});
+
+	socket.on('hello',(message)=>{
+		console.log('Welcome! Your clientId is:',message.clientId)
+		clientId = message.clientId
+	})
 }
 
 function switchGroup(index) {
 	rootEl.classList.remove('group--' + group);
 	group = index;
 	rootEl.classList.add('group--' + index);
+	socket.emit('switch', group);
 	console.log('Switched Group', group);
 }
 
@@ -89,6 +91,13 @@ function playImage(note) {
 	}
 }
 
+/* Host a session */
+function host(options) {
+	socket.emit('host', options); 
+	connectMidi();
+}
+
+/* deprecated */
 function connectMidi() {
 	navigator.requestMIDIAccess().then(midi => midiReady(midi), err => console.log('Something went wrong', err));
 }
@@ -162,12 +171,13 @@ function midiMessageReceived(event) {
 	if (cmd === NOTE_OFF || (cmd === NOTE_ON && velocity === 0)) {
 		// void
 	} else if (cmd === NOTE_ON) {
-		channel.publish(CHANNEL, { role: 'group', note: pitch, group: group });
+
+		socket.emit('midi_message', { role: 'group', note: pitch, group: group }); // Assuming 'index' is the parameter for joining a specific channel
+
 		const eventsItem = document.createElement('div');
 		eventsItem.textContent = 'Note: ' + pitch + ' Group: ' + group;
 		eventsList.innerHTML = '';
 		eventsList.append(eventsItem);
 		playImage(pitch);
-		// void
 	}
 }

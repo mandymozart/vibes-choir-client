@@ -1,36 +1,82 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Socket.IO Example App</title>
-    <link rel="stylesheet" href="./socket.css">
-  </head>
-  <body>
-    <h1>A Chat with Socket.IO</h1>
-    <div class="row">
-      <div class="column">
-        <ul id="messageField">
-        </ul>
-      </div>
-      <div class="column" id="messageForm">
-        <span id="errorMessage"></span>
-        <form>
-          <div class="row justify-center">
-            <label for="messageUser">Your name: </label>
-            <input type="text" id="messageUser"></input>
-          </div>
-          <div class="row justify-center">
-            <label for="messageBody">Your message: </label>
-            <input type="text" id="messageBody"></textarea>
-          </div>
-          <div class="row justify-center">
-            <input type="button" id="send" value="Send" onclick="sendMessage()"/>
-          </div>
-        </form>
-      </div>
-    </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./socket.js"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDI Input</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+
+        }
+        #image {
+                position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+        }
+         .widget {
+            padding: .5rem;
+            background: #ffffff94;
+            width: 15rem;
+         }
+         .monitor, .member {
+            display: none;
+        }
+        .events {
+            overflow: scroll;
+        }
+        .main .monitor {
+            display: block;
+
+        }
+        .group .member {
+            display: block;
+        }
+        .main .welcome, .group .welcome {
+            display: none;
+        }
+        .group--0 .button--group--0,
+        .group--1 .button--group--1,
+        .group--2 .button--group--2,
+        .group--3 .button--group--3,
+        .group--4 .button--group--4
+         {
+            background-color: blue;
+            color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <main id="app">
+        <div class="widget welcome">
+            <button class="button button--chooseGroup" onclick="join()">Choose Group</button>
+            <button class="button button--chooseGroup" onclick="host()">Connect Midi</button>
+        </div>
+        <div class="widget member">
+            <button class="button button--chooseGroup button--group--0" onclick="switchGroup(0)">1</button>
+            <button class="button button--chooseGroup button--group--1" onclick="switchGroup(1)">2</button>
+            <button class="button button--chooseGroup button--group--2" onclick="switchGroup(2)">3</button>
+            <button class="button button--chooseGroup button--group--3" onclick="switchGroup(3)">4</button>
+            <button class="button button--chooseGroup button--group--4" onclick="switchGroup(4)">5</button>
+        
+        </div>
+        <div class="widget monitor">
+            <ul id="devices">
+                Welcome!
+            </ul>
+            <div id="events">
+                No events yet!
+            </div>
+        </div>
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2Z4ZHY2a2hxaHFhaDliaDBpcjNpbWlsbTRnaDFwcGIyMXBzOTgwZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wgCtRNiCgYhlSCnNsM/giphy.gif" id="image"/>
+    </main>
+    
+<script src="/socket.io/socket.io.js"></script>
+    <script src="main.js" lang="js"></script>
+</body>
 </html>

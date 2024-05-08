@@ -13,37 +13,41 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 
-// Import the custom chatbot module
-const chatbot = require('./chatbot');
-
 // Serve static files from the public/ directory
 app.use(express.static('public'));
 
+// Wrap data in carrier message
+function makeMessage(socket, data) {
+    return {clientId:socket.id,data:data}
+}
+
 // Have Socket.IO listen for socket connections
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log('Connection made');
-
-    // Define handling for new messages
-    socket.on('newmessage', async (messageObject) => {
-        console.log('Message received:\n\t' + messageObject.body);
-
-        // Broadcast the message to all sockets
-        io.emit('newmessage', messageObject);
-
-        // Fetch a response from the chatbot, and broadcast that response
-        botResponse = await chatbot.getResponse({ sender: messageObject.user, message: messageObject.body })
-            .then((responses) => {
-                for (response of responses) {
-                    console.log('Bot message of:\n\t' + response);
-
-                    io.emit('botmessage', { user: 'ChatFriend', body: response });
-                }
-            })
+    socket.on('disconnect', () => {
+        console.log('Disconnected client');
+        socket.broadcast.emit('disconnected', {});
     });
 
-    // Define handling for disconnects
-    socket.on('disconnect', () => {
-        console.log('Disconnected user');
+    socket.on('host',(options)=>{
+        console.log('User hosted session ', options)
+        socket.broadcast.emit('host', makeMessage(socket,options));
+    })
+
+    socket.on('join',(group)=>{
+        console.log('User joined group ' + group)
+        socket.broadcast.emit('join', makeMessage(socket, options));
+    })
+
+    socket.on('switch',(group)=>{
+        console.log('User switched to group ' + group)
+        socket.broadcast.emit('switch', makeMessage(socket, group));
+    })
+
+    socket.on('midi_message', async (midimessage) => {
+        console.log('Received MIDI message:', midimessage);
+        // Forward the MIDI message to all connected clients except the sender
+        socket.broadcast.emit('midi_message', makeMessage(socket,midimessage));
     });
 });
 
