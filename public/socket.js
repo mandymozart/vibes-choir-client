@@ -1,5 +1,5 @@
 // Create a socket from the Socket.IO module
-var socket = io();
+var socket = io("socket-lb02.onrender.com", {transports: ['websocket']});;
 
 // Assign variables for elements of the page for easy access
 var messageUser = document.getElementById('messageUser');
