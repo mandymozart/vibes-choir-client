@@ -5,6 +5,8 @@ let group = 0; // index empty if main
 // const groups = [0, 1, 2, 3, 4];
 
 const rootEl = document.querySelector('#app');
+const playButtonEl = document.querySelector('#playButton');
+const playIndicatorEl = document.querySelector('#playIndicator');
 const devicesList = document.querySelector('#devices');
 const eventsList = document.querySelector('#events');
 const imageEl = document.querySelector('#image');
