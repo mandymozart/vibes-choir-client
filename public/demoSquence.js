@@ -47,7 +47,6 @@ const weightedNotes = {
   65: 0.05,
   66: 0.05,
   67: 0.05,
-  68: 0.05,
 };
 
 function generateWeightedGroups(groups) {

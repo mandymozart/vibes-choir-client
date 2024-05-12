@@ -13,31 +13,31 @@ const imageEl = document.querySelector('#image');
 const images = [
   {
     note: 48,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/c/c8/Zero_di4ry_on_ig_discovered_by_KT_%E2%99%A1_on_We_Heart_It.jpg/revision/latest/scale-to-width-down/1000?cb=20210420114659',
+    url: 'images/F_on_We_Heart_It.webp',
   },
   {
     note: 49,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/a/ae/Black_metal.jpeg/revision/latest?cb=20190803075640',
+    url: 'images/Black_metal.webp',
   },
   {
     note: 50,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/a/a5/555555555555555555555566666664444444444.jpg/revision/latest/scale-to-width-down/1000?cb=20220423015644',
+    url: 'images/555555555555555555555566666664444444444.webp',
   },
   {
     note: 51,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/0/05/Bloody-knuckles.jpg/revision/latest?cb=20210121143155',
+    url: 'images/Farm_daight_9.webp',
   },
   {
     note: 52,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/6/6b/Farm_daight_9.jpg/revision/latest?cb=20221010205545',
+    url: 'images/Cottagecore.webp',
   },
   {
     note: 53,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/3/34/Cottagecore.jpg/revision/latest?cb=20230730224216',
+    url: 'images/Through_the_prism_of_the_soul.webp',
   },
   {
     note: 54,
-    url: 'https://static.wikia.nocookie.net/aesthetics/images/d/d0/Through_the_prism_of_the_soul.jpg/revision/latest/scale-to-width-down/1000?cb=20200626201240',
+    url: 'images/Bloody-knuckles.webp',
   },
 ];
 
