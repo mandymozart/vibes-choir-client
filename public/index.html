@@ -1,99 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIDI Input</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Swarm Choir</title>
     <style>
-        body {
-            font-size: 16px;
-            font-family: 'Courier New', Courier, monospace;
+      :root {
+        --font: system, 'Courier New', Courier, monospace;
+      }
+      body {
+        font-size: 16px;
+        font-family: var(--font);
+        margin: 0;
+      }
+      #image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -2;
+      }
+      .widget {
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+      }
+      .monitor,
+      .member {
+        display: none;
+      }
+      .member div {
+        padding: 1rem;
+        display: flex;
+        gap: 1rem;
+      }
+      .events {
+        overflow: scroll;
+      }
+      .main .monitor {
+        display: block;
+        background: #ffffff94;
+      }
+      .welcome {
+        text-align: center;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .welcome div {
+        padding: 1rem;
+      }
+      .member .button {
+        width: 100%;
+      }
+      .group .member {
+        display: block;
+      }
+      .button {
+        border: 0;
+        border-radius: 2rem;
+        line-height: 3rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 0 2rem;
+        font-family: var(--font);
+      }
+      .button--join {
+        background: blue;
+        color: white;
+        padding: 0 4rem;
+      }
 
-        }
-        #image {
-                position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    z-index: -1;
-        }
-         .widget {
-            padding: .5rem;
-            background: #ffffff94;
-            width: 15rem;
-         }
-         .monitor, .member {
-            display: none;
-        }
-        .events {
-            overflow: scroll;
-        }
-        .main .monitor {
-            display: block;
+      .main .welcome,
+      .group .welcome {
+        display: none;
+      }
+      .standby {
+        position: fixed;
+        display: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        bottom: 0;
+        background: rgb(0, 0, 0);
+        justify-items: center;
+        align-items: center;
+        color: rgb(255, 255, 255);
+        z-index: -1;
+      }
+      .standby h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 17vw;
+      }
+      .stopped .standby {
+        display: flex;
+      }
+      .group--0 .button--group--0,
+      .group--1 .button--group--1,
+      .group--2 .button--group--2,
+      .group--3 .button--group--3,
+      .group--4 .button--group--4 {
+        background-color: blue;
+        color: aliceblue;
+      }
 
-        }
-        .group .member {
-            display: block;
-        }
-        .main .welcome, .group .welcome {
-            display: none;
-        }
-        .group--0 .button--group--0,
-        .group--1 .button--group--1,
-        .group--2 .button--group--2,
-        .group--3 .button--group--3,
-        .group--4 .button--group--4
-         {
-            background-color: blue;
-            color: aliceblue;
-        }
-
-        .status {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-        }
-        .playIndicator {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 1rem;
-            background-color: white;
-        }
+      .status {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+      }
+      .playIndicator {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 1rem;
+        background-color: white;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <main id="app">
-        <div class="status">
-            <div id="playIndicator" class="playIndicator"></div>
+      <div class="status">
+        <div
+          id="playIndicator"
+          class="playIndicator"></div>
+      </div>
+      <div class="widget welcome">
+        <div>
+          <button
+            class="button button--join"
+            onclick="join()">
+            Join
+          </button>
+          <button
+            class="button button--host"
+            onclick="host()">
+            Host
+          </button>
         </div>
-        <div class="widget welcome">
-            <button class="button button--switchGroup" onclick="join()">Choose Group</button>
-            <button class="button button--switchGroup" onclick="host()">Connect Midi</button>
+      </div>
+      <div class="widget member">
+        <div>
+          <button
+            class="button button--switchGroup button--group--0"
+            onclick="switchGroup(0)">
+            1
+          </button>
+          <button
+            class="button button--switchGroup button--group--1"
+            onclick="switchGroup(1)">
+            2
+          </button>
+          <button
+            class="button button--switchGroup button--group--2"
+            onclick="switchGroup(2)">
+            3
+          </button>
+          <button
+            class="button button--switchGroup button--group--3"
+            onclick="switchGroup(3)">
+            4
+          </button>
+          <button
+            class="button button--switchGroup button--group--4"
+            onclick="switchGroup(4)">
+            5
+          </button>
         </div>
-        <div class="widget member">
-            <button class="button button--switchGroup button--group--0" onclick="switchGroup(0)">1</button>
-            <button class="button button--switchGroup button--group--1" onclick="switchGroup(1)">2</button>
-            <button class="button button--switchGroup button--group--2" onclick="switchGroup(2)">3</button>
-            <button class="button button--switchGroup button--group--3" onclick="switchGroup(3)">4</button>
-            <button class="button button--switchGroup button--group--4" onclick="switchGroup(4)">5</button>
-        
-        </div>
-        <div class="widget monitor">
-            <ul id="devices">
-                Welcome!
-            </ul>
-            <div id="events">
-                No events yet!
-            </div>
-            <button class="button button--playDemo" id="playButton" onclick="playDemo()">Play Demo</button>
-        </div>
-        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2Z4ZHY2a2hxaHFhaDliaDBpcjNpbWlsbTRnaDFwcGIyMXBzOTgwZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wgCtRNiCgYhlSCnNsM/giphy.gif" id="image"/>
+      </div>
+      <div class="widget monitor">
+        <ul id="devices">
+          Welcome!
+        </ul>
+        <div id="events">No events yet!</div>
+        <button
+          class="button button--playDemo"
+          id="playButton"
+          onclick="playDemo()">
+          Play Demo
+        </button>
+      </div>
+      <img
+        src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2Z4ZHY2a2hxaHFhaDliaDBpcjNpbWlsbTRnaDFwcGIyMXBzOTgwZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wgCtRNiCgYhlSCnNsM/giphy.gif"
+        id="image" />
     </main>
-    
-<script src="/socket.io/socket.io.js"></script>
-<script src="demoSquence.js" lang="js"></script>
-    <script src="main.js" lang="js"></script>
-</body>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="utils.js"></script>
+    <script
+      src="demoSquence.js"
+      lang="js"></script>
+    <script
+      src="main.js"
+      lang="js"></script>
+  </body>
 </html>
