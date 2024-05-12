@@ -8,6 +8,7 @@ let GROUP_OFFSET = 8; //
 let LFO_RATE = 5; // hz
 let TOTAL_STEPS = 24;
 let GROUPS = 5; // Example: one sequence per group
+let NOTES = 20;
 let PLAYING = false; // Flag to control loop
 
 const playButtonEl = document.querySelector('#playButton');

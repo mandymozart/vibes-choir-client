@@ -72,7 +72,9 @@ function randomNumberOfRangeWithWeight(min, max, similarWeight) {
 }
 
 function weightedRand(weights) {
-  if (Object.values(weights).reduce((acc, val) => acc + val, 0) !== 1.0) {
+  const tolerance = 0.000001; // Tolerance value for floating-point precision
+  const sum = Object.values(weights).reduce((acc, val) => acc + val, 0);
+  if (Math.abs(sum - 1.0) > tolerance) {
     throw new Error('Probabilities must sum up to 1');
   }
   if (!Object.values(weights).every((p) => p >= 0)) {
