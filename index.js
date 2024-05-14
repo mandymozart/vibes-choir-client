@@ -12,7 +12,12 @@ const server = http.createServer(app);
 
 // Create a Socket.IO server with the HTTP server
 const { Server } = require('socket.io');
-const io = new Server(server);
+const io = new Server(server,{
+  cors: {
+    origin: "https://viennastruggle.com",
+    methods: ["GET", "POST"]
+  }
+});
 
 // Serve static files from the public/ directory
 app.use(express.static('public'));
