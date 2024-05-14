@@ -1,4 +1,5 @@
-const SOCKET_URI = 'vibes-choir-client.onrender.com'
+const SOCKET_URI = null;
+// const SOCKET_URI = 'vibes-choir-client.onrender.com'
 let midiIn = [],
   midiOut = [];
 let role; // main, group
@@ -9,45 +10,16 @@ const rootEl = document.querySelector('#app');
 const devicesListEl = document.querySelector('#devices');
 const eventsListEl = document.querySelector('#events');
 const connectionIndicatorEl = document.querySelector('#connectionIndicator')
+const contentsEl = document.querySelector('.contents')
 const imageEl = document.querySelector('#image');
+const onomatopoeiaEl = document.querySelector('#onomatopoeia');
 // const CHANNEL = 'generator';
 
-const images = [
-  {
-    note: 48,
-    url: 'images/F_on_We_Heart_It.webp',
-  },
-  {
-    note: 49,
-    url: 'images/Black_metal.webp',
-  },
-  {
-    note: 50,
-    url: 'images/555555555555555555555566666664444444444.webp',
-  },
-  {
-    note: 51,
-    url: 'images/Farm_daight_9.webp',
-  },
-  {
-    note: 52,
-    url: 'images/Cottagecore.webp',
-  },
-  {
-    note: 53,
-    url: 'images/Through_the_prism_of_the_soul.webp',
-  },
-  {
-    note: 54,
-    url: 'images/Bloody-knuckles.webp',
-  },
-];
-
-const imagesUrls = preloadImages(images);
-console.log('preloaded > ', imagesUrls);
 
 let socket = io(SOCKET_URI);
-// let socket = io();
+
+if (!isMobileDevice()) rootEl.classList.add('can-host')
+
 
 function join() {
   role = 'group';
@@ -59,7 +31,7 @@ function join() {
     const data = message.data;
     // Play image if subscribed to this group
     if (data.role === 'group' && data.group === group) {
-      playImage(data.note);
+      playContent(data.note);
     }
   });
 
@@ -77,14 +49,22 @@ function switchGroup(index) {
   console.log('Switched Group', group);
 }
 
-function playImage(note) {
-  // Find the image corresponding to the note
-  const image = images.find((img) => img.note === note);
-  if (image) {
-    // Set the image source
-    imageEl.src = image.url;
+function playContent(note) {
+  // Find the content corresponding to the note
+  const content = contents.find((img) => img.note === note);
+  console.log(note, content)
+  if (content) {
+    contentsEl.querySelectorAll('.content').forEach(el => el.style.visibility = 'hidden')
+    if (content.media.type === 'image') {
+      imageEl.querySelector('img').src = content.media.url;
+      imageEl.style.visibility = 'visible';
+    }
+    if (content.media.type === 'onomatopoeia') {
+      onomatopoeiaEl.textContent = content.media.text;
+      onomatopoeiaEl.style.visibility = 'visible';
+    }
   } else {
-    console.error('Image not found for MIDI note:', note);
+    console.error('Content not found for MIDI note:', note);
   }
 }
 
@@ -183,7 +163,7 @@ function midiMessageReceived(event) {
     eventsItem.textContent = 'Note: ' + pitch + ' Group: ' + group;
     eventsListEl.innerHTML = '';
     eventsListEl.append(eventsItem);
-    playImage(pitch);
+    playContent(pitch);
   }
 }
 

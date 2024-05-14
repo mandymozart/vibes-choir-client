@@ -346,13 +346,48 @@ function preloadImage(url) {
   return img;
 }
 
-function preloadImages(images) {
-  for (var i = 0; i < images.length; i++) {
-    images[i] = preloadImage(images[i].url);
+function preloadMedia(media) {
+  if (media.type === 'image') {
+    const imageEl = new Image();
+    imageEl.src = media.url;
+  } else {
+    // Handle other media types if needed
+    console.warn('Can not preload media type:', media.type);
   }
-  return images;
+}
+
+function preload(arr) {
+  for (var i = 0; i < arr.length; i++) {
+    const media = arr[i].media;
+    if (media && media.type === 'image') {
+      preloadMedia(media);
+    }
+  }
 }
 
 function isMobileDevice() {
   return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+function sequencesToMarkdown(sequences) {
+  let markdown = '';
+  
+  // Iterate over each sequence
+  sequences.forEach((sequence, index) => {
+      markdown += `\n\n### Sequence ${index + 1}\n\n`;
+      markdown += '| Group | Note |\n';
+      markdown += '|-------|------|\n';
+      
+      // Iterate over each item in the sequence
+      sequence.forEach(item => {
+          markdown += `| ${item.group}     | ${item.note}   |\n`;
+      });
+      
+      // Add spacing between tables
+      if (index < sequences.length - 1) {
+          markdown += '\n\n';
+      }
+  });
+  
+  return markdown;
 }

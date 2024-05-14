@@ -16,147 +16,149 @@ const playIndicatorEl = document.querySelector('#playIndicator');
 
 // Example usage:
 const nQuarterBeats = 4; // Number of quarter beats
-const milliseconds = msPerBeat(TEMPO,5);
+const milliseconds = msPerBeat(TEMPO, 5);
 console.log('Milliseconds:', milliseconds);
 
 function randomNumberOfRange(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 function randomNumberBetween(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 const weightedNotes = {
-  48: 0.05,
-  49: 0.05,
-  50: 0.05,
-  51: 0.05,
-  52: 0.05,
-  53: 0.05,
-  54: 0.05,
-  55: 0.05,
-  56: 0.05,
-  57: 0.05,
-  58: 0.05,
-  59: 0.05,
-  60: 0.05,
-  61: 0.05,
-  62: 0.05,
-  63: 0.05,
-  64: 0.05,
-  65: 0.05,
-  66: 0.05,
-  67: 0.05,
+    48: 0.05,
+    49: 0.05,
+    50: 0.05,
+    51: 0.05,
+    52: 0.05,
+    53: 0.05,
+    54: 0.05,
+    55: 0.05,
+    56: 0.05,
+    57: 0.05,
+    58: 0.05,
+    59: 0.05,
+    60: 0.05,
+    61: 0.05,
+    62: 0.05,
+    63: 0.05,
+    64: 0.05,
+    65: 0.05,
+    66: 0.05,
+    67: 0.05,
 };
 
 function generateWeightedGroups(groups) {
-  const weightedGroups = {};
-  const weight = 1 / groups; // Equal weight for each group
-  for (let i = 0; i < groups; i++) {
-    weightedGroups[i] = weight;
-  }
-  return weightedGroups;
+    const weightedGroups = {};
+    const weight = 1 / groups; // Equal weight for each group
+    for (let i = 0; i < groups; i++) {
+        weightedGroups[i] = weight;
+    }
+    return weightedGroups;
 }
 
 const weightedGroups = generateWeightedGroups(GROUPS);
 
 function generateSequence() {
-  const sequence = [];
-  for (let i = 0; i < TOTAL_STEPS; i++) {
-    const message = {
-      role: 'group',
-      note: weightedRand(weightedNotes),
-      group: weightedRand(weightedGroups),
-    };
-    sequence.push(message);
-  }
-  return sequence;
+    const sequence = [];
+    for (let i = 0; i < TOTAL_STEPS; i++) {
+        const message = {
+            role: 'group',
+            note: parseInt(weightedRand(weightedNotes)),
+            duration: NOTE_LENGTH,
+            group: parseInt(weightedRand(weightedGroups)),
+        };
+        sequence.push(message);
+    }
+    return sequence;
 }
 
 async function playSequence(sequence, sequenceNumber) {
-  return new Promise((resolve) => {
-    let step = 0;
-    const interval = setInterval(() => {
-      if (!PLAYING) {
-        clearInterval(interval); // Stop interval if not playing
-        resolve(); // Resolve the promise when stopped
-        return;
-      }
+    return new Promise((resolve) => {
+        let step = 0;
+        const interval = setInterval(() => {
+            if (!PLAYING) {
+                clearInterval(interval); // Stop interval if not playing
+                resolve(); // Resolve the promise when stopped
+                return;
+            }
 
-      const currentStep = sequence[step];
-      console.log(
-        `Sequence ${sequenceNumber + 1}, Step ${step + 1}:`,
-        currentStep,
-      );
-      socket.emit('midi_message', currentStep);
-      step = (step + 1) % TOTAL_STEPS;
+            const currentStep = sequence[step];
+            console.log(
+                `Sequence ${sequenceNumber + 1}, Step ${step + 1}:`,
+                currentStep,
+            );
+            socket.emit('midi_message', currentStep);
+            step = (step + 1) % TOTAL_STEPS;
 
-      if (step === 0) {
-        clearInterval(interval); // Stop interval after completing all steps
-        resolve(); // Resolve the promise when completed
-      }
-    }, 2000);
-  });
+            if (step === 0) {
+                clearInterval(interval); // Stop interval after completing all steps
+                resolve(); // Resolve the promise when completed
+            }
+        }, msPerBeat(TEMPO,NOTE_LENGTH));
+    });
+}
+
+let sequences;
+// Generate all sequences
+function seedSequences() {
+    sequences = Array.from({ length: GROUPS }, (_, i) =>
+        generateSequence(),
+    );
+    console.log("Sequences generated", sequencesToMarkdown(sequences))
+    
+}
+seedSequences();
+
+let intervalId;
+// Function to start the blinking
+function playBlinking(bpm) {
+    const intervalTime = msPerBeat(bpm) / 2; // Blinking interval is half the beat duration
+
+    intervalId = setInterval(() => {
+        playIndicatorEl.style.visibility = (playIndicatorEl.style.visibility === 'hidden') ? 'visible' : 'hidden';
+    }, intervalTime);
+}
+
+// Function to stop the blinking
+function stopBlinking() {
+    if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+        playIndicatorEl.style.visibility = 'visible'; // Ensure visibility is reset
+    }
 }
 
 async function loop() {
-  // Generate all sequences
-  const sequences = Array.from({ length: GROUPS }, (_, i) =>
-    generateSequence(),
-  );
+    playBlinking(TEMPO); 
 
-  // Play all sequences concurrently
-  await Promise.all(
-    sequences.map((sequence, index) => playSequence(sequence, index)),
-  );
+    // Play all sequences concurrently
+    await Promise.all(
+        sequences.map((sequence, index) => playSequence(sequence, index)),
+    );
 
-  // If still playing, restart the loop
-  if (PLAYING) {
-    await loop();
-  }
-}
+    stopBlinking();
 
-function changeColorWithBlink(color1, color2) {
-  const millisecondsPerBeat = 60000 / TEMPO;
-  let currentColor = color1;
-  let isBlinking = false;
-
-  function blink() {
-    isBlinking = true;
-    setTimeout(() => {
-      isBlinking = false;
-      toggleColor();
-    }, msPerBeat(TEMPO) / 2);
-  }
-
-  function toggleColor() {
-    currentColor = currentColor === color1 ? color2 : color1;
-    playIndicatorEl.backgroundColor = currentColor;
-    if (!isBlinking && PLAYING) {
-      blink();
+    // If still playing, restart the loop
+    if (PLAYING) {
+        await loop();
     }
-  }
-
-  toggleColor(); // Start with the first color
 }
 
-// Example usage:
-const color1 = 'white';
-const color2 = 'blue';
-changeColorWithBlink(color1, color2);
 
-function playDemo() {
-  PLAYING = true;
-  loop();
-  playButtonEl.innerHTML = 'Stop';
-  rootEl.classList.add('isPlaying');
-  console.log('Started demo');
-}
-
-function stopDemo() {
-  PLAYING = FALSE;
-  playButtonEl.innerHTML = 'Play Demo';
-  rootEl.classList.remove('isPlaying');
-  console.log('Stopped demo');
+function togglePlay() {
+    if(PLAYING){
+        PLAYING = false;
+        playButtonEl.innerHTML = 'Play Demo';
+        rootEl.classList.remove('isPlaying');
+        console.log('Stopped demo');
+    } else {
+        PLAYING = true;
+        loop();
+        playButtonEl.innerHTML = 'Stop';
+        rootEl.classList.add('isPlaying');
+        console.log('Started demo');
+    }
 }
