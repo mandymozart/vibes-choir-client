@@ -16,7 +16,7 @@ const playIndicatorEl = document.querySelector('#playIndicator');
 
 // Example usage:
 const nQuarterBeats = 4; // Number of quarter beats
-const milliseconds = msPerBeat(5);
+const milliseconds = msPerBeat(TEMPO,5);
 console.log('Milliseconds:', milliseconds);
 
 function randomNumberOfRange(min, max) {

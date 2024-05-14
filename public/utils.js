@@ -6,7 +6,7 @@ function getMsFromBpm(bpm) {
   return 60000 / bpm;
 }
 
-function msPerBeat(beats, bpm) {
+function msPerBeat(bpm,beats = 1) {
   return beats * getMsFromBpm(bpm);
 }
 
