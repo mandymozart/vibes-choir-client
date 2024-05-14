@@ -352,3 +352,7 @@ function preloadImages(images) {
   }
   return images;
 }
+
+function isMobileDevice() {
+  return /Mobi|Android/i.test(navigator.userAgent);
+}

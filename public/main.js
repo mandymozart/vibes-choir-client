@@ -1,3 +1,4 @@
+const SOCKET_URI = 'vibes-choir-client.onrender.com'
 let midiIn = [],
   midiOut = [];
 let role; // main, group
@@ -5,8 +6,9 @@ let group = 0; // index empty if main
 // const groups = [0, 1, 2, 3, 4];
 
 const rootEl = document.querySelector('#app');
-const devicesList = document.querySelector('#devices');
-const eventsList = document.querySelector('#events');
+const devicesListEl = document.querySelector('#devices');
+const eventsListEl = document.querySelector('#events');
+const connectionIndicatorEl = document.querySelector('#connectionIndicator')
 const imageEl = document.querySelector('#image');
 // const CHANNEL = 'generator';
 
@@ -44,7 +46,7 @@ const images = [
 const imagesUrls = preloadImages(images);
 console.log('preloaded > ', imagesUrls);
 
-let socket = io('vibes-choir-client.onrender.com');
+let socket = io(SOCKET_URI);
 // let socket = io();
 
 function join() {
@@ -133,13 +135,13 @@ function initDevices(midi) {
 
 function displayDevices() {
   if (midiIn.length > 0) {
-    devicesList.innerHTML = '';
+    devicesListEl.innerHTML = '';
   }
   for (let input of midiIn) {
     // Add the input device to the list
     const listItem = document.createElement('li');
     listItem.textContent = input.name;
-    devicesList.appendChild(listItem);
+    devicesListEl.appendChild(listItem);
     // // Add event listener for MIDI messages
     // input.onmidimessage = onMIDIMessage;
   }
@@ -179,8 +181,43 @@ function midiMessageReceived(event) {
 
     const eventsItem = document.createElement('div');
     eventsItem.textContent = 'Note: ' + pitch + ' Group: ' + group;
-    eventsList.innerHTML = '';
-    eventsList.append(eventsItem);
+    eventsListEl.innerHTML = '';
+    eventsListEl.append(eventsItem);
     playImage(pitch);
   }
 }
+
+let socketConnected = false;
+rootEl.classList.add('connecting')
+socket.on('connect', () => {
+  console.log('Connected to server');
+  rootEl.classList.add('ready')
+  rootEl.classList.remove('connecting')
+  socketConnected = true;
+});
+
+socket.on('disconnect', () => {
+  console.log('Disconnected from server');
+  rootEl.classList.remove('ready')
+  rootEl.classList.add('disconnected')
+  socketConnected = false;
+});
+
+socket.on('error', (error) => {
+  console.error('Socket error:', error);
+  // Handle connection error
+});
+
+socket.on('connect_error', (error) => {
+  console.error('Connection error:', error);
+  rootEl.classList.add('disconnected')
+  rootEl.classList.add('error')
+  // Handle connection error
+});
+
+socket.on('connect_timeout', () => {
+  console.error('Connection timed out');
+  rootEl.classList.add('disconnected')
+  rootEl.classList.add('error')
+  // Handle connection timeout
+});
