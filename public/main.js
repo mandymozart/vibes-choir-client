@@ -1,5 +1,5 @@
-const SOCKET_URI = null;
-// const SOCKET_URI = 'vibes-choir-client.onrender.com'
+// const SOCKET_URI = null;
+const SOCKET_URI = 'vibes-choir-client.onrender.com'
 let midiIn = [],
   midiOut = [];
 let role; // main, group
