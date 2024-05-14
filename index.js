@@ -1,5 +1,7 @@
 // Define a PORT variable for the server
 const PORT = 3000;
+const ALLOW_ORIGIN = "*"
+// const ALLOW_ORIGIN = "https://viennastruggle.com"
 
 // Import the Express package and initialize the app object
 const express = require('express');
@@ -14,7 +16,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server,{
   cors: {
-    origin: "https://viennastruggle.com",
+    origin: ALLOW_ORIGIN,
     methods: ["GET", "POST"]
   }
 });
