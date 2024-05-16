@@ -1,6 +1,6 @@
 let midiIn = [],
     midiOut = [];
-const MIDI_DEVICES = ['generator'];
+const MIDI_DEVICES = ['generator','generator Bus 1'];
 
 const devicesListEl = document.querySelector('#devices');
 const eventsListEl = document.querySelector('#events');
@@ -65,8 +65,8 @@ function initDevices(midi) {
     // MIDI devices that send you data.
 const inputs = midi.inputs.values();
 for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
-    console.log(input.value)
-  if (input.value.name && MIDI_DEVICES.includes(input.value.name.toLowerCase())) {
+    console.log(input.value.name)
+  if (input.value.name && MIDI_DEVICES.includes(input.value.name)) {
     midiIn.push(input.value);
   }
 }
@@ -150,7 +150,7 @@ function midiMessageReceived(event) {
         eventsListEl.innerHTML = '';
         eventsListEl.append(eventsItem);
         // individual channel
-        const groupsContentsEl = groupsEl.querySelector(`[data-group-id="${_group}"]`);
+        const groupsContentsEl = groupsEl.querySelector(`[data-group-id="${channel}"]`);
         groupsContentsEl.querySelector('.content--event').append(eventsItem)
         previewContent(pitch, velocity-1);
     }
