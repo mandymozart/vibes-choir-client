@@ -1,5 +1,6 @@
 let midiIn = [],
     midiOut = [];
+const MIDI_DEVICES = ['generator'];
 
 const devicesListEl = document.querySelector('#devices');
 const eventsListEl = document.querySelector('#events');
@@ -62,10 +63,14 @@ function initDevices(midi) {
     midiOut = [];
 
     // MIDI devices that send you data.
-    const inputs = midi.inputs.values();
-    for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
-        midiIn.push(input.value);
-    }
+const inputs = midi.inputs.values();
+for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
+    console.log(input.value)
+  if (input.value.name && MIDI_DEVICES.includes(input.value.name.toLowerCase())) {
+    midiIn.push(input.value);
+  }
+}
+
 
     // MIDI devices that you send data to.
     const outputs = midi.outputs.values();
@@ -131,17 +136,22 @@ function midiMessageReceived(event) {
         console.log(
             `🎧 OFF CH${channel} NOTE${pitch} VEL${velocity}`,
         );
+        socket.emit('midi_message', { role: 'group', channel: channel, note: pitch, velocity: velocity, isNoteOff: true }); 
         stopPreviewContent(pitch, velocity-1);
     } else if (cmd === NOTE_ON) {
         console.log(
             `🎧 CH${channel} NOTE${pitch} VEL${velocity}`,
         );
-        socket.emit('midi_message', { role: 'group', channel: channel, note: pitch, group: velocity - 1 }); // velocity starts from 1 but we need indexing from 0
-
+        socket.emit('midi_message', { role: 'group', channel: channel, note: pitch, velocity: velocity }); 
+        
+        // logging
         const eventsItem = document.createElement('div');
-        eventsItem.textContent = `CH${channel} NOTE${pitch} VEL${velocity}=group`;
+        eventsItem.textContent = `CH${channel}=group NOTE${pitch} VEL${velocity}`;
         eventsListEl.innerHTML = '';
         eventsListEl.append(eventsItem);
+        // individual channel
+        const groupsContentsEl = groupsEl.querySelector(`[data-group-id="${_group}"]`);
+        groupsContentsEl.querySelector('.content--event').append(eventsItem)
         previewContent(pitch, velocity-1);
     }
 }

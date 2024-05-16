@@ -66,7 +66,7 @@
         }
 
         #onomatopoeia {
-            font-size: 50vh;
+            font-size: 25vh;
             width: 100vw;
             height: 100vh;
             justify-content: center;
@@ -206,11 +206,11 @@ bottom: auto;
             display: flex;
         }
 
-        .group--0 .button--group--0,
         .group--1 .button--group--1,
         .group--2 .button--group--2,
         .group--3 .button--group--3,
-        .group--4 .button--group--4 {
+        .group--4 .button--group--4,
+        .group--5 .button--group--5 {
             background-color: orange;
         }
 
@@ -266,19 +266,19 @@ bottom: auto;
         </div>
         <div class="widget member">
             <div>
-                <button class="button button--switchGroup button--group--0" onclick="switchGroup(0)">
+                <button class="button button--switchGroup button--group--1" onclick="switchGroup(1)">
                     1
                 </button>
-                <button class="button button--switchGroup button--group--1" onclick="switchGroup(1)">
+                <button class="button button--switchGroup button--group--2" onclick="switchGroup(2)">
                     2
                 </button>
-                <button class="button button--switchGroup button--group--2" onclick="switchGroup(2)">
+                <button class="button button--switchGroup button--group--3" onclick="switchGroup(3)">
                     3
                 </button>
-                <button class="button button--switchGroup button--group--3" onclick="switchGroup(3)">
+                <button class="button button--switchGroup button--group--4" onclick="switchGroup(4)">
                     4
                 </button>
-                <button class="button button--switchGroup button--group--4" onclick="switchGroup(4)">
+                <button class="button button--switchGroup button--group--5" onclick="switchGroup(5)">
                     5
                 </button>
             </div>
@@ -292,18 +292,10 @@ bottom: auto;
                 Play Demo
             </button>
             <div class="groups">
-                <div class="groups-contents" data-group-id="0">
-                    <div class="content content--image">
-                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
-                            alt="Black Pixel">
-                    </div>
-                    <div class="content content--onomatopoeia"></div>
-                    <div class="content content--event"></div>
-                </div>
                 <div class="groups-contents" data-group-id="1">
                     <div class="content content--image">
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
-                        alt="Black Pixel">
+                            alt="Black Pixel">
                     </div>
                     <div class="content content--onomatopoeia"></div>
                     <div class="content content--event"></div>
@@ -325,6 +317,14 @@ bottom: auto;
                     <div class="content content--event"></div>
                 </div>
                 <div class="groups-contents" data-group-id="4">
+                    <div class="content content--image">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+                        alt="Black Pixel">
+                    </div>
+                    <div class="content content--onomatopoeia"></div>
+                    <div class="content content--event"></div>
+                </div>
+                <div class="groups-contents" data-group-id="5">
                     <div class="content content--image">
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
                         alt="Black Pixel">

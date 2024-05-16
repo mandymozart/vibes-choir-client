@@ -8,11 +8,13 @@ function join() {
 
   // Subscribe to 'midi_message' event emitted by the server
   socket.on('midi_message', (message) => {
-    console.log('Received: ', group, message.clientId);
+    console.log('Received: ', channel, message.clientId);
     const data = message.data;
     // Play image if subscribed to this group
-    if (data.role === 'group' && data.group === group) {
+    if (data.role === 'group' && data.group === channel && !data.isNoteOff) {
       playContent(data.note);
+    } else {
+      stopContent(data.note)
     }
   });
 
@@ -30,7 +32,7 @@ function switchGroup(index) {
   console.log('Switched Group', group);
 }
 
-function playContent(note, _group) {
+function playContent(note) {
   // Find the content corresponding to the note
   const content = contents.find((img) => img.note === note);
   console.log(note, content)
@@ -51,7 +53,7 @@ function playContent(note, _group) {
   }
 }
 
-function stopContent(note, _group) {
+function stopContent(note) {
   //make content invisible
   contentsEl.querySelectorAll('.content').forEach(el => el.style.visibility = 'hidden')
 }
