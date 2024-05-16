@@ -14,7 +14,7 @@ const contents = [
   { note: 64, media: { type: 'onomatopoeia', text: 'zzztt zzztt' } },
   { note: 72, media: { type: 'onomatopoeia', text: 'swish' } },
   { note: 73, media: { type: 'onomatopoeia', text: 'swosh' } },
-  { note: 74, media: { type: 'onomatopoeia', text: 'rustle' } },
+  { note: 74, media: { type: 'image', url: 'images/aladin-sheep.webp' } },
   { note: 75, media: { type: 'onomatopoeia', text: 'whoosh' } },
   { note: 76, media: { type: 'onomatopoeia', text: 'moan' } },
   { note: 84, media: { type: 'onomatopoeia', text: 'throb' } },
