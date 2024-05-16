@@ -8,10 +8,10 @@ function join() {
 
   // Subscribe to 'midi_message' event emitted by the server
   socket.on('midi_message', (message) => {
-    console.log('Received: ', channel, message.clientId);
+    console.log('Received: ', message, message.clientId);
     const data = message.data;
     // Play image if subscribed to this group
-    if (data.role === 'group' && data.group === channel && !data.isNoteOff) {
+    if (data.role === 'group' && data.channel === group && !data.isNoteOff) {
       playContent(data.note);
     } else {
       stopContent(data.note)

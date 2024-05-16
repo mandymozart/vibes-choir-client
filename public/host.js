@@ -118,7 +118,8 @@ function midiMessageReceived(event) {
     const CONTROLER_NUMBER = 1;
 
     const cmd = event.data[0] >> 4;
-    const channel = event.data[0] & 0x0F; // Currently ignoring channel
+    let channel = event.data[0] & 0x0F; // Currently ignoring channel
+    channel++;
     const pitch = event.data[1];
     const velocity = event.data.length > 2 ? event.data[2] : 1;
 
@@ -130,28 +131,28 @@ function midiMessageReceived(event) {
     //   if (controllerNumber === CONTROLER_NUMBER)
     //     socket.emit('switch', controllerValue);
     // } else
+    console.log(channel)
     if (cmd === NOTE_OFF || (cmd === NOTE_ON && velocity === 0)) {
         // Note that not all MIDI controllers send a separate NOTE_OFF command for every NOTE_ON.
         // void
-        console.log(
-            `🎧 OFF CH${channel} NOTE${pitch} VEL${velocity}`,
-        );
-        socket.emit('midi_message', { role: 'group', channel: channel, note: pitch, velocity: velocity, isNoteOff: true }); 
-        stopPreviewContent(pitch, velocity-1);
+        const message = { role: 'group', channel: channel, note: pitch, velocity: velocity, isNoteOff: true }
+        logMessage(message)
+        socket.emit('midi_message', message); 
+        stopPreviewContent(pitch, channel);
     } else if (cmd === NOTE_ON) {
-        console.log(
-            `🎧 CH${channel} NOTE${pitch} VEL${velocity}`,
-        );
-        socket.emit('midi_message', { role: 'group', channel: channel, note: pitch, velocity: velocity }); 
-        
+        const message = { role: 'group', channel: channel, note: pitch, velocity: velocity };
+        socket.emit('midi_message', message); 
         // logging
-        const eventsItem = document.createElement('div');
-        eventsItem.textContent = `CH${channel}=group NOTE${pitch} VEL${velocity}`;
-        eventsListEl.innerHTML = '';
-        eventsListEl.append(eventsItem);
-        // individual channel
-        const groupsContentsEl = groupsEl.querySelector(`[data-group-id="${channel}"]`);
-        groupsContentsEl.querySelector('.content--event').append(eventsItem)
-        previewContent(pitch, velocity-1);
+        logMessage(message)
+        previewContent(pitch, channel);
     }
+}
+
+function logMessage (message) {
+    const eventsItem = document.createElement('div');
+    const text = `${message.isNoteOff ? 'NOTE OFF' : 'NOTE ON'} (CH${message.channel}=group NOTE${message.note} VEL${message.velocity} ROLE${message.role})`
+    eventsItem.textContent = text;
+    console.log(text)
+    const groupsContentsEl = groupsEl.querySelector(`[data-group-id="${message.channel}"]`);
+    groupsContentsEl.querySelector('.content--event').prepend(eventsItem)
 }
