@@ -25,8 +25,8 @@ const io = new Server(server, {
 
 // Serve static files from the public/ directory
 
-app.use(express.static(path.join(__dirname, '/../vanilla/public')));
-console.log(path.join(__dirname, '/../vanilla/public'));
+app.use(express.static(path.join(__dirname, '/../client/dist')));
+console.log(path.join(__dirname, '/../client/dist'));
 // Wrap data in carrier message
 function makeMessage(socket, data) {
   return { clientId: socket.id, data: data };
