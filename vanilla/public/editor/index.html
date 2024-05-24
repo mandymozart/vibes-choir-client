@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Add MIDI Content</title>
+    <link
+      rel="stylesheet"
+      href="editor.css" />
+  </head>
+  <body>
+    <div id="content-editor">
+      <h2>Add MIDI Content</h2>
+      <form id="content-form">
+        <label for="preset-name">Preset Name:</label>
+        <input
+          type="text"
+          id="preset-name"
+          name="preset-name" />
+        <label for="preset-id">Preset ID:</label>
+        <input
+          type="text"
+          id="preset-id"
+          name="preset-id" />
+        <label for="note">Note:</label>
+        <select
+          id="note"
+          name="note">
+          <!-- Dynamically generate options for notes 1 to 127 -->
+          <!-- For simplicity, here we are assuming MIDI notes range from 1 to 127 -->
+        </select>
+        <label for="media-type">Media Type:</label>
+        <select
+          id="media-type"
+          name="media-type">
+          <option value="onomatopoeia">👄 Onomatopoeia</option>
+          <option value="image">🖼️ Image</option>
+          <option value="score">♪ Score</option>
+          <option value="video">📹 Video</option>
+        </select>
+        <label for="text">Text:</label>
+        <input
+          type="text"
+          id="text"
+          name="text" />
+        <label for="url">URL:</label>
+        <input
+          type="text"
+          id="url"
+          name="url" />
+        <button type="submit">Add Content</button>
+        <button
+          type="button"
+          id="save-button">
+          Save
+        </button>
+      </form>
+    </div>
+
+    <div id="presets-selector">
+      <label for="presets-select">Select Preset:</label>
+      <select id="presets-select"></select>
+    </div>
+
+    <div id="preset-details"></div>
+    <script src="https://cdn.jsdelivr.net/npm/zustand@4.5.2/vanilla.min.js"></script>
+    <script src="../presets.js"></script>
+    <script src="../utils.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

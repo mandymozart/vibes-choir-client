@@ -6,7 +6,7 @@ function getMsFromBpm(bpm) {
   return 60000 / bpm;
 }
 
-function msPerBeat(bpm,beats = 1) {
+function msPerBeat(bpm, beats = 1) {
   return beats * getMsFromBpm(bpm);
 }
 
@@ -356,6 +356,14 @@ function preloadMedia(media) {
   }
 }
 
+function getEmojiForMediaType(mediaType) {
+  if (mediaType === 'onomatopoeia') return '👄';
+  if (mediaType === 'image') return '🖼️';
+  if (mediaType === 'video') return '📹';
+  if (mediaType === 'score') return '♪';
+  return 'UNKNOWN';
+}
+
 function preload(arr) {
   for (var i = 0; i < arr.length; i++) {
     const media = arr[i].media;
@@ -371,23 +379,23 @@ function isMobileDevice() {
 
 function sequencesToMarkdown(sequences) {
   let markdown = '';
-  
+
   // Iterate over each sequence
   sequences.forEach((sequence, index) => {
-      markdown += `\n\n### Sequence ${index + 1}\n\n`;
-      markdown += '| Group | Note |\n';
-      markdown += '|-------|------|\n';
-      
-      // Iterate over each item in the sequence
-      sequence.forEach(item => {
-          markdown += `| ${item.group}     | ${item.note}   |\n`;
-      });
-      
-      // Add spacing between tables
-      if (index < sequences.length - 1) {
-          markdown += '\n\n';
-      }
+    markdown += `\n\n### Sequence ${index + 1}\n\n`;
+    markdown += '| Group | Note |\n';
+    markdown += '|-------|------|\n';
+
+    // Iterate over each item in the sequence
+    sequence.forEach((item) => {
+      markdown += `| ${item.group}     | ${item.note}   |\n`;
+    });
+
+    // Add spacing between tables
+    if (index < sequences.length - 1) {
+      markdown += '\n\n';
+    }
   });
-  
+
   return markdown;
 }

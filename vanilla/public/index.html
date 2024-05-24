@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Kode+Mono:wght@400..700&display=swap"
+      rel="stylesheet" />
+    <link
+      href="index.css"
+      rel="stylesheet" />
+    <title>Swarm Choir</title>
+    <style></style>
+  </head>
+
+  <body>
+    <main id="app">
+      <div class="status">
+        <div
+          id="connectionIdicator"
+          class="indicator indicator--connection">
+          <span></span>
+        </div>
+        <div
+          id="playIndicator"
+          class="indicator indicator--play">
+          <span></span>
+        </div>
+      </div>
+      <div class="widget welcome">
+        <div>
+          <button
+            class="button button--join"
+            onclick="join()">
+            Join
+          </button>
+          <button
+            class="button button--host"
+            onclick="host()">
+            Host
+          </button>
+        </div>
+      </div>
+      <div class="widget member">
+        <div>
+          <button
+            class="button button--switchGroup button--group--1"
+            onclick="switchGroup(1)">
+            1
+          </button>
+          <button
+            class="button button--switchGroup button--group--2"
+            onclick="switchGroup(2)">
+            2
+          </button>
+          <button
+            class="button button--switchGroup button--group--3"
+            onclick="switchGroup(3)">
+            3
+          </button>
+          <button
+            class="button button--switchGroup button--group--4"
+            onclick="switchGroup(4)">
+            4
+          </button>
+          <button
+            class="button button--switchGroup button--group--5"
+            onclick="switchGroup(5)">
+            5
+          </button>
+        </div>
+      </div>
+      <div class="widget monitor">
+        <header>
+          <div class="controls">
+            <select id="devices"></select>
+          </div>
+        </header>
+        <div class="groups">
+          <div
+            class="groups-contents"
+            data-group-id="1">
+            <div class="content-previewer">
+              <div class="content content--image">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+                  alt="Black Pixel" />
+              </div>
+              <div class="content content--onomatopoeia"></div>
+            </div>
+            <div class="content--event"></div>
+          </div>
+          <div
+            class="groups-contents"
+            data-group-id="2">
+            <div class="content-previewer">
+              <div class="content content--image">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+                  alt="Black Pixel" />
+              </div>
+              <div class="content content--onomatopoeia"></div>
+            </div>
+            <div class="content--event"></div>
+          </div>
+          <div
+            class="groups-contents"
+            data-group-id="3">
+            <div class="content-previewer">
+              <div class="content content--image">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+                  alt="Black Pixel" />
+              </div>
+              <div class="content content--onomatopoeia"></div>
+            </div>
+            <div class="content--event"></div>
+          </div>
+          <div
+            class="groups-contents"
+            data-group-id="4">
+            <div class="content-previewer">
+              <div class="content content--image">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+                  alt="Black Pixel" />
+              </div>
+              <div class="content content--onomatopoeia"></div>
+            </div>
+            <div class="content--event"></div>
+          </div>
+          <div
+            class="groups-contents"
+            data-group-id="5">
+            <div class="content-previewer">
+              <div class="content content--image">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+                  alt="Black Pixel" />
+              </div>
+              <div class="content content--onomatopoeia"></div>
+            </div>
+            <div class="content--event"></div>
+          </div>
+        </div>
+      </div>
+      <div class="contents">
+        <div
+          class="content content--image"
+          id="image">
+          <img
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwAB/4+6kVkAAAAASUVORK5CYII="
+            alt="Black Pixel" />
+        </div>
+        <div
+          class="content content--onomatopoeia"
+          id="onomatopoeia"></div>
+        <div
+          class="content content--score"
+          id="score">
+          <div class="score-inner">
+            <div id="osmd"></div>
+          </div>
+          <div class="annotation"></div>
+        </div>
+      </div>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.8.8/build/opensheetmusicdisplay.min.js"></script>
+    <script src="utils.js"></script>
+    <script
+      src="presets.js"
+      lang="js"></script>
+
+    <!-- <script
+      src="demoSquence.js"
+      lang="js"></script> -->
+    <script
+      src="main.js"
+      lang="js"></script>
+    <script
+      src="inputDevicesSelector.js"
+      lang="js"></script>
+    <script
+      src="client.js"
+      lang="js"></script>
+    <script
+      src="host.js"
+      lang="js"></script>
+  </body>
+</html>

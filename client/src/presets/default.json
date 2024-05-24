@@ -1,0 +1,7 @@
+{
+  "id": "default",
+  "name": "default",
+  "contents": [
+    { "note": 1, "media": { "type": "onomatopoeia", "text": "Hello World!" } }
+  ]
+}

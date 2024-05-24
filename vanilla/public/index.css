@@ -1,0 +1,337 @@
+:root {
+  --font: 'Kode Mono', system-ui, 'Courier New', Courier, monospace;
+  --font-onomatopoeia: 'Bangers', system-ui;
+}
+
+body {
+  font-size: 16px;
+  font-family: var(--font);
+  margin: 0;
+  background: black;
+}
+
+img {
+  display: block;
+}
+
+.widget {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
+
+.monitor,
+.member {
+  display: none;
+}
+.member {
+  z-index: 10;
+}
+.member div {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.events {
+  overflow: scroll;
+}
+
+.contents {
+}
+
+.content {
+}
+
+#image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100vw;
+  height: 100vh;
+}
+
+#image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#onomatopoeia {
+  font-size: 20vh;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  line-height: 1rem;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-onomatopoeia);
+  color: white;
+  overflow-wrap: anywhere;
+  text-align: center;
+  word-break: break-all;
+}
+
+#score {
+  position: absolute;
+  visibility: hidden;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  font-family: var(--font-onomatopoeia);
+  background: white;
+  overflow-wrap: anywhere;
+  text-align: center;
+  word-break: break-all;
+  top: 0;
+  display: grid;
+}
+.score-inner {
+  padding: 1rem;
+}
+#score #osmd {
+  /* aspect-ratio: 16/9; */
+}
+#score .annotation {
+  position: absolute;
+  bottom: 3rem;
+  padding: 2rem;
+  font-size: 1rem;
+  font-family: var(--font-onomatopoeia);
+  color: black;
+  overflow-wrap: anywhere;
+  text-align: left;
+  word-break: break-all;
+}
+
+.group #onomatopoeia {
+  font-size: 8rem;
+}
+
+.monitor {
+  grid-template-rows: 5rem auto;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.monitor header {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  border-bottom: 1px solid #313131;
+  box-sizing: border-box;
+}
+.monitor header .controls {
+}
+
+select {
+  line-height: 2rem;
+  border: 0;
+  border-radius: 2rem;
+  font-family: var(--font);
+  font-size: 1rem;
+  height: 3rem;
+  padding: 0 2rem;
+  background-color: white;
+}
+
+.monitor .groups {
+  display: grid;
+  height: calc(100vh - 5rem);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.monitor .groups-contents {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.monitor .groups::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50vh; /* Height of the fading effect */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  pointer-events: none; /* Ensure it does not interfere with interaction */
+}
+.monitor .groups-contents .content-previewer {
+  aspect-ratio: 16 / 9;
+}
+.monitor .groups-contents .content {
+  background-color: black;
+}
+.monitor .groups-contents .content--image {
+  background-color: rgb(255, 94, 0);
+  aspect-ratio: 16 / 9;
+  display: none;
+}
+.monitor .groups-contents .content--image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.monitor .groups-contents .content--onomatopoeia {
+  font-size: 3vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  aspect-ratio: 16 / 9;
+  font-family: var(--font-onomatopoeia);
+  color: white;
+  overflow-wrap: anywhere;
+  text-align: center;
+  word-break: break-all;
+}
+.monitor .groups-contents .content--event {
+  padding: 2rem;
+}
+.main .monitor {
+  display: grid;
+  color: white;
+  bottom: auto;
+}
+
+.host .indicator--play {
+  visibility: visible;
+}
+
+.welcome {
+  text-align: center;
+  top: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome div {
+  padding: 1rem;
+}
+
+.ready .welcome {
+  display: flex;
+}
+
+.member .button {
+  width: 3rem;
+  padding: 0;
+  border: 2px solid;
+  height: 3rem;
+}
+
+.group .member {
+  display: block;
+}
+
+.button {
+  border-radius: 2rem;
+  cursor: pointer;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0 2rem;
+  background: white;
+  font-family: var(--font);
+  border: 2px solid black;
+}
+
+.button:hover {
+  background: black;
+  color: white;
+}
+
+.button--join {
+  background: orange;
+  color: black;
+  padding: 0 4rem;
+}
+
+.button--host {
+  display: none;
+}
+
+.can-host .button--host {
+  display: inline-block;
+}
+
+.main .welcome,
+.group .welcome {
+  display: none;
+}
+
+.standby {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  justify-items: center;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  z-index: -1;
+}
+
+.standby h2 {
+  width: 100%;
+  text-align: center;
+  font-size: 17vw;
+}
+
+.stopped .standby {
+  display: flex;
+}
+
+.group--1 .button--group--1,
+.group--2 .button--group--2,
+.group--3 .button--group--3,
+.group--4 .button--group--4,
+.group--5 .button--group--5 {
+  background-color: orange;
+}
+
+.status {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  padding: 2rem;
+}
+
+.indicator {
+  width: 1rem;
+  height: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  background-color: grey;
+}
+
+.indicator--play {
+  background-color: white;
+  visibility: hidden;
+}
+
+.ready .indicator--connection {
+  background-color: orange;
+}
+
+.error .indicator--connection {
+  background-color: red;
+}
+
+.disconnected .indicator--connection {
+  background-color: blueviolet;
+}
