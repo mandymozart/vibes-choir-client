@@ -1,7 +1,8 @@
 const path = require('path');
+require('dotenv').config();
 // Define a PORT variable for the server
-const PORT = 3000;
-const HOST = '127.0.0.1';
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '127.0.0.1';
 const ALLOW_ORIGIN = '*';
 // const ALLOW_ORIGIN = "https://viennastruggle.com"
 

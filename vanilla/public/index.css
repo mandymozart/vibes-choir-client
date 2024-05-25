@@ -60,11 +60,10 @@ img {
 }
 
 #onomatopoeia {
-  font-size: 20vh;
+  font-size: 25vh;
   width: 100vw;
   height: 100vh;
   justify-content: center;
-  line-height: 1rem;
   display: flex;
   align-items: center;
   font-family: var(--font-onomatopoeia);
