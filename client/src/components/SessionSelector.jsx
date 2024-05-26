@@ -10,9 +10,9 @@ const SessionSelector = () => {
   const { setSessionId } = useSessionStore();
   useEffect(() => {
     if (sessionId) setSessionId(sessionId);
-    else setSessionId('new');
+    else setSessionId('New');
   }, [sessionId]);
-  return <Container>Session:{sessionId}</Container>;
+  return <Container>{sessionId} Session</Container>;
 };
 
 export default SessionSelector;

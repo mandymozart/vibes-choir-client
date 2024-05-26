@@ -2,12 +2,18 @@ import styled from '@emotion/styled';
 import clsx from 'clsx';
 import React from 'react';
 import useSessionStore from '../stores/SessionStore';
+import useUIStore from '../stores/UIStore';
 import { Button } from './FormElements/Button';
 const Container = styled.div`
   position: absolute;
   bottom: 1rem;
   width: 100%;
   text-align: center;
+  transition: all 0.5s ease-out;
+  opacity: 1;
+  &.isPresenting {
+    opacity: 0;
+  }
   button:disabled {
     background-color: orange;
   }
@@ -18,6 +24,7 @@ const Container = styled.div`
 
 const GroupSwitcher = () => {
   const { groups, switchGroup, currentGroup } = useSessionStore();
+  const { isPresenting } = useUIStore();
 
   function switcher(group) {
     switchGroup(group.id);
@@ -25,7 +32,7 @@ const GroupSwitcher = () => {
   }
 
   return (
-    <Container>
+    <Container className={clsx({ isPresenting })}>
       {groups
         ?.sort((a, b) => a.channel - b.channel)
         .map((group) => (

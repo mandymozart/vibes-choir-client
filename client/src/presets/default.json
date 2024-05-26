@@ -1,6 +1,7 @@
 {
   "id": "default",
   "name": "default",
+  "groups": [{ "id": "group-1", "name": "Group 1", "channel": 1 }],
   "contents": [
     { "note": 1, "media": { "type": "onomatopoeia", "text": "Hello World!" } }
   ]

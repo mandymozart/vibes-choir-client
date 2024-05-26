@@ -8,27 +8,19 @@ import MIDIConnectionState from '../components/Midi/MidiConnectionState';
 import SessionSelector from '../components/SessionSelector';
 import SocketConnectionState from '../components/Socket/SocketConnectionState';
 import { socket } from '../socket';
-import { useMIDIStore } from '../stores/AdvancedMidiStore';
-import useMidiStore from '../stores/MidiStore';
 import useSessionStore from '../stores/SessionStore';
 
 const Container = styled.div`
-  margin-top: 4rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
 `;
 
 export default function Host() {
   const { presetId } = useParams();
-  const { groups, preset, loadPreset } = useSessionStore();
-  const { connectedMIDIInputs } = useMIDIStore();
+  const { preset, loadPreset } = useSessionStore();
 
-  const { setStatus } = useMidiStore();
-
-  function handleMIDIError(e) {
-    setStatus('error');
-    console.error(e);
-  }
-
-  // Sockets
   useEffect(() => {
     socket.on('midimessage', (msg) => console.log(msg));
 
@@ -42,14 +34,6 @@ export default function Host() {
     socket.emit('host', options);
   }, []);
 
-  const stopContent = (note, group) => {
-    console.log('stop');
-  };
-
-  const playContent = (note, group) => {
-    console.log('play');
-  };
-
   useEffect(() => {
     loadPreset(presetId || 'default');
   }, [presetId]);
@@ -57,7 +41,6 @@ export default function Host() {
   return (
     <Container>
       <Header>
-        <span>Host</span>
         <div className='spacer'>
           <SessionSelector />
         </div>
@@ -65,8 +48,6 @@ export default function Host() {
         <MIDIConnectionState />
         <SocketConnectionState />
       </Header>
-
-      {/* <MidiBasic /> */}
       <GroupMonitorList groups={preset?.groups} />
     </Container>
   );

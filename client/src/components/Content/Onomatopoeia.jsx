@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   font-family: var(--font-onomatopoeia);
-  color: white;
+  color: var(--white)
   overflow-wrap: anywhere;
   text-align: center;
   word-break: break-all;

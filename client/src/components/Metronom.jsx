@@ -9,7 +9,7 @@ const Container = styled.div`
     transition: filter 300ms;
   }
   .lamp:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+    filter: drop-shadow(0 0 2em var(--primary) aa);
   }
 `;
 

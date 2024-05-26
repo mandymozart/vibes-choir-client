@@ -22,22 +22,22 @@ const Container = styled.div`
     margin-left: 0.5rem;
   }
   &.connecting .indicator {
-    background-color: yellow;
+    background-color: var(--connecting);
   }
 
   &.ready .indicator {
-    background-color: green;
-    color: white;
+    background-color: var(--ready);
+    color: var(--white);
   }
 
   &.disconnected .indicator {
-    background-color: grey;
-    color: white;
+    background-color: var(--disconnected);
+    color: var(--white);
   }
 
   &.error .indicator {
-    background-color: red;
-    color: white;
+    background-color: var(--error);
+    color: var(--white);
   }
 `;
 

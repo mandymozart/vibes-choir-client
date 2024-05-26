@@ -2,6 +2,7 @@ import styled from '@emotion/styled'; // updated import to styled instead of rea
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 
+import clsx from 'clsx';
 import {
   Route,
   RouterProvider,
@@ -13,8 +14,17 @@ import Group from './Pages/Group';
 import Home from './Pages/Home';
 import Host from './Pages/Host';
 import { MIDIProvider } from './stores/AdvancedMidiStore';
+import useUIStore from './stores/UIStore';
 
-const Container = styled.div``;
+const Container = styled.div`
+  background: var(--black);
+  height: 100vh;
+  width: 100%;
+  transition: background 0.5s ease-out;
+  &.isPresenting {
+    background: black; /* absolute black for projectors */
+  }
+`;
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,8 +62,9 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const { isPresenting } = useUIStore();
   return (
-    <Container>
+    <Container className={clsx({ isPresenting })}>
       <RouterProvider router={router} />
       <Toaster />
     </Container>

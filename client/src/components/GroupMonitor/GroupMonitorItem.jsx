@@ -9,6 +9,9 @@ import useSessionStore from '../../stores/SessionStore';
 import ContentPreviews from '../Content/ContentPreviews';
 import { Button } from '../FormElements/Button';
 
+const GroupMonitorButton = styled(Button)`
+  line-height: 1rem;
+`;
 const Container = styled.div`
   button {
     border-radius: 1rem;
@@ -37,17 +40,13 @@ const GroupMonitorItem = ({ group }) => {
       });
       return;
     }
-    // console.log('playContent', note, newContent);
     setContent(newContent);
     setContentId(`${presetId}-${newContent.note}-${newContent.type}`);
   };
   const stopContent = () => {
-    // console.log('stopContent');
     setContent(null);
   };
   useEffect(() => {
-    // console.log(contents[group.channel]);
-    // if (group.channel === 5) console.log(contents[5]);
     if (contents[group.channel]) {
       playContent(contents[group.channel]);
     } else {
@@ -60,9 +59,9 @@ const GroupMonitorItem = ({ group }) => {
   };
   return (
     <Container>
-      <Button onClick={() => editGroup(group)}>
+      <GroupMonitorButton onClick={() => editGroup(group)}>
         <span>{group.channel}</span> <span>{group.name}</span> <TiCog />
-      </Button>
+      </GroupMonitorButton>
 
       <AnimatePresence mode='popLayout'>
         <motion.div

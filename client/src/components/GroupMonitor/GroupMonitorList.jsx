@@ -16,6 +16,11 @@ const Container = styled.div`
   }
   padding: 1rem;
   gap: 1rem;
+  position: fixed;
+  top: 5rem;
+  left: 0;
+  right: 0;
+  height: calc(100vh - 7rem);
 `;
 
 const GroupMonitorList = ({ groups }) => {

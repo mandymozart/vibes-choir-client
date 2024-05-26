@@ -1,41 +1,31 @@
 {
   "id": "cloud9",
-  "name": "cloud9",
+  "name": "Cloud 9",
   "groups": [
     {
       "id": "soprano",
       "name": "Soprano",
-      "channel": 1,
-      "createdAt": "",
-      "updatedAt": ""
+      "channel": 1
     },
     {
       "id": "alto",
       "name": "Alto",
-      "channel": 2,
-      "createdAt": "",
-      "updatedAt": ""
+      "channel": 2
     },
     {
       "id": "tenor",
       "name": "Tenor",
-      "channel": 3,
-      "createdAt": "",
-      "updatedAt": ""
+      "channel": 3
     },
     {
       "id": "bass",
       "name": "Bass",
-      "channel": 4,
-      "createdAt": "",
-      "updatedAt": ""
+      "channel": 4
     },
     {
       "id": "audience",
       "name": "Audience",
-      "channel": 5,
-      "createdAt": "",
-      "updatedAt": ""
+      "channel": 5
     }
   ],
   "contents": [

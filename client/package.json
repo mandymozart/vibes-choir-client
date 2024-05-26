@@ -17,6 +17,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.2.6",
+    "json-edit-react": "^1.11.0",
     "nanoid": "^5.0.7",
     "opensheetmusicdisplay": "^1.8.8",
     "osmd-audio-player": "^0.7.0",

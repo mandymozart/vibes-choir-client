@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
   font-family: var(--font-onomatopoeia);
-  background: white;
+  background: var(--white)
   overflow-wrap: anywhere;
   word-break: break-all;
   top: 0;
@@ -25,7 +25,7 @@ const Container = styled.div`
     padding: 2rem;
     font-size: 1rem;
     font-family: var(--font-onomatopoeia);
-    color: black;
+    color: var(--black);
     overflow-wrap: anywhere;
     text-align: left;
     word-break: break-all;

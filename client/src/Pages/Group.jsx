@@ -14,7 +14,12 @@ import useSessionStore from '../stores/SessionStore';
 import useSocketStore from '../stores/SocketStore';
 import useUserStore from '../stores/UserStore';
 
-const Container = styled.div``;
+const Container = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+`;
 
 export default function Group() {
   const { socketConnected, setClientId, clientId } = useSocketStore();

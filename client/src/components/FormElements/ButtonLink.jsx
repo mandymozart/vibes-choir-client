@@ -10,13 +10,14 @@ const Container = styled(Link)`
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
-  color: #f9f9f9;
+  background-color: var(--black-200);
+  color: var(--white);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: all 0.25s;
 
   &:hover {
-    border-color: #646cff;
+    border-color: var(--primary);
+    color: var(--primary-500);
   }
   &:focus,
   &:focus-visible {

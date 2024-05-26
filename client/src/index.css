@@ -10,23 +10,40 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --black: #141414;
+  --black-200: #1a1a1a;
+  --white: #f1f1f1;
+  --primary: #646cff;
+  --primary-500: #535bf2;
+  --secondary: orange;
+
+  --ready: green;
+  --connecting: yellow;
+  --disconnected: grey;
+  --error: red;
+
+  --transition: 0.25s;
+  --spark: 1.8s;
 }
 
 body {
+  --active: 0;
   font-size: 16px;
   font-family: var(--font);
-  color: #f1f1f1;
+  color: var(--white);
   margin: 0;
-  background: black;
+  background: hsl(260 calc(var(--active) * 97%) 6%);
+  transition: background var(--transition);
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--primary);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--primary-500);
 }
 
 h1 {
