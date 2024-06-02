@@ -1,6 +1,10 @@
 {
   "id": "cloud9",
   "name": "Cloud 9",
+  "generator": {
+    "id": "",
+    "options": [{}]
+  },
   "groups": [
     {
       "id": "soprano",

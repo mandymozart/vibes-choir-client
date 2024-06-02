@@ -42,6 +42,24 @@ const PresetJSONEditor = ({ preset }) => {
     setStatus('saved-to-local');
   };
 
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+          // Assuming jsonData contains the updated preset data
+          updatePreset(selectedPreset.id, jsonData);
+          setSelected({ ...selectedPreset, ...jsonData });
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
   useEffect(() => {
     console.log(selected);
     setJsonData(selected);
