@@ -104,7 +104,7 @@ const Header = ({ children }) => {
   return (
     <Container className={clsx({ isPresenting: isPresenting })}>
       <LogoButton />
-      <div class='spacer'></div>
+      <div className='spacer'></div>
       <div className='content'>{children}</div>
       <HeaderButton onClick={() => toggleFullScreen()}>
         <AiOutlineFullscreen />

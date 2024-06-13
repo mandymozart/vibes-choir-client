@@ -21,7 +21,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-export default function Group() {
+export default function Session() {
   const { socketConnected, setClientId, clientId } = useSocketStore();
   const {
     currentGroup,

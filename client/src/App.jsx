@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'; // updated import to styled instead of react
 import React from 'react';
+import { useQuery, gql } from '@apollo/client';
 import { Toaster } from 'react-hot-toast';
 
 import clsx from 'clsx';
@@ -10,11 +11,12 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import Editor from './Pages/Editor';
-import Group from './Pages/Group';
+import Session from './Pages/Session';
 import Home from './Pages/Home';
 import Host from './Pages/Host';
 import { MIDIProvider } from './stores/AdvancedMidiStore';
 import useUIStore from './stores/UIStore';
+import Sessions from './Pages/Sessions';
 
 const Container = styled.div`
   background: var(--black);
@@ -34,12 +36,15 @@ const router = createBrowserRouter(
         element={<Home />}
       />
       <Route
-        path='/group'
-        element={<Group />}
+        path='/sessions'
+        element={<Sessions />} />
+      <Route
+        path='/session/:sessionId'
+        element={<Session />}
       />
       <Route
-        path='/group/:presetId/:groupChannel'
-        element={<Group />}
+        path='/session/:presetId/:groupChannel'
+        element={<Session />}
       />
       <Route
         path='/host'
@@ -63,6 +68,7 @@ const router = createBrowserRouter(
 
 function App() {
   const { isPresenting } = useUIStore();
+
   return (
     <Container className={clsx({ isPresenting })}>
       <RouterProvider router={router} />

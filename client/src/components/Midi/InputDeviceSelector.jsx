@@ -19,8 +19,16 @@ const Container = styled.div`
 const InputDevicesSelector = () => {
   const { groups } = useSessionStore();
   // const { midiInputs } = useMIDIStore();
-  const { midiInputs, addMIDIInput, connectedMIDIInputs, removeMIDIInput } =
-    useMIDIStore();
+  const { 
+    midiInputs, 
+    addMIDIInput, 
+    connectedMIDIInputs, 
+    removeMIDIInput, 
+    midiOutputs, 
+    addMIDIOutput, 
+    connectedMIDIOutputs, 
+    removeMIDIOutput 
+  } = useMIDIStore();
   const { status, setStatus, setMidiConnected } = useMidiStore();
   const { addContent, removeContent } = useContentMonitorStore();
 
@@ -83,15 +91,17 @@ const InputDevicesSelector = () => {
   };
 
   const logMessage = (message) => {
-    const text = `${message.isNoteOff ? 'NOTE OFF' : 'NOTE ON'} (CH${
-      message.channel
-    } NOTE${message.note} VEL${message.velocity})`;
+    const text = `${message.isNoteOff ? 'NOTE OFF' : 'NOTE ON'} (CH${message.channel
+      } NOTE${message.note} VEL${message.velocity})`;
     // console.log(text);
   };
 
   useEffect(() => {
-    console.log('Available Inputs', midiInputs);
-  }, [midiInputs]);
+    console.log('Available Inputs', midiInputs, 'selecting default');
+    console.log('Available Output', midiOutputs, 'selecting default');
+    if(midiInputs.length > 0) addMIDIInput(midiInputs[0], handleMIDIMessage);
+    if(midiOutputs.length > 0 && addMIDIOutput(midiOutputs[0])) console.log(`Connected Output: '${midiOutputs[0].name}'`);
+  }, [midiInputs, midiOutputs]);
 
   useEffect(() => {
     console.log('Connected Inputs', connectedMIDIInputs);

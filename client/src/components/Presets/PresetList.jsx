@@ -3,6 +3,8 @@ import React from 'react';
 import usePresetStore from '../../stores/PresetsStore';
 import { PrimaryButton } from '../FormElements/PrimaryButton';
 import PresetItem from './PresetItem';
+import { GET_PRESETS } from '../../queries/PresetQueries';
+import { useQuery } from '@apollo/client';
 
 const Container = styled.div`
   display: flex;
@@ -11,19 +13,21 @@ const Container = styled.div`
 `;
 
 const PresetList = () => {
-  const { presets } = usePresetStore();
-  const addNew = () => {
-    console.log('todo');
-  };
+  // const { presets } = usePresetStore();
+  const { loading, error, data } = useQuery(GET_PRESETS);
+
+
+  if (loading) return <p>Loading...</p>;
+
+  if (error) return <p>Error : {error.message}</p>;
   return (
     <Container>
-      {presets?.map((preset, index) => (
+      {data?.presets?.map((preset, index) => (
         <PresetItem
           preset={preset}
           key={index}
         />
       ))}
-      <PrimaryButton onClick={addNew}>Add new</PrimaryButton>
     </Container>
   );
 };

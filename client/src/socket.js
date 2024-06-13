@@ -1,4 +1,4 @@
 import { io } from 'socket.io-client';
-const URI = import.meta.env.VITE_SOCKET_URI;
-console.log('Connecting to socket at:', URI);
-export const socket = io(URI);
+const { SOCKET_URI } = import.meta.env;
+console.log('Connecting to socket at:', SOCKET_URI);
+export const socket = io(SOCKET_URI);

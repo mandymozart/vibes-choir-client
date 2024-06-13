@@ -196,9 +196,12 @@ export const useMIDIStore = create((set, get) => ({
 
 export function MIDIProvider({ children, onError }) {
   const initializeMIDI = useMIDIStore((state) => state.initializeMIDI);
+  const handleError = (error) => {
+    console.log('Error initializing MIDI',error)
+  }
   useEffect(() => {
-    initializeMIDI(onError);
-  }, [initializeMIDI, onError]);
+    initializeMIDI(handleError);
+  }, [initializeMIDI, handleError]);
 
   return <>{children}</>;
 }

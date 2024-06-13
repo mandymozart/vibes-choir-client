@@ -3,4 +3,8 @@ export const ContentTypes = Object.freeze({
   IMAGE: 'image',
   SCORE: 'score',
   VIDEO: 'video',
+  AUDIO: 'audio',
+  SVG: 'svg',
+  TEXT: 'text',
+  GLB: 'glb',
 });
